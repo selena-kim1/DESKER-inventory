@@ -135,10 +135,64 @@ body { font-family: var(--font); background: var(--bg); color: var(--text1); min
   .two-up { grid-template-columns: 1fr; }
   .metrics { grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ── Tabs ── */
+.tab-nav { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); margin-bottom: 24px; }
+.tab-btn { font-size: 14px; font-family: var(--font); padding: 10px 20px; border: none; background: none; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s; }
+.tab-btn:hover { color: var(--text1); }
+.tab-btn.on { color: var(--text1); border-bottom-color: var(--text1); font-weight: 500; }
+.tab-page { display: none; }
+.tab-page.on { display: block; }
+
+/* ── Tracking tab ── */
+.trk-intro { font-size: 13px; color: var(--text2); line-height: 1.7; padding: 12px 14px; background: var(--surface2); border-radius: var(--r-md); margin-bottom: 20px; border-left: 2px solid var(--border2); }
+.method-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.method-tag { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 4px 12px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--surface); color: var(--text2); cursor: pointer; font-family: var(--font); transition: all .1s; }
+.method-tag.on { font-weight: 500; }
+.method-tag[data-m="자연소진"].on  { background:#EAF3DE; color:#2d6a0f; border-color:#4a8c22; }
+.method-tag[data-m="영업 판촉"].on { background:#E6F1FB; color:#0C447C; border-color:#378ADD; }
+.method-tag[data-m="기부"].on      { background:#F0EDF8; color:#3C3489; border-color:#7F77DD; }
+.method-tag[data-m="폐기"].on      { background:#FCEBEB; color:#791F1F; border-color:#E24B4A; }
+.method-tag[data-m="MOQ 재협의"].on{ background:#FAEEDA; color:#633806; border-color:#BA7517; }
+.method-tag[data-m="허수재고"].on  { background:var(--surface2); color:var(--text1); border-color:var(--text1); }
+.trk-table-scroll { overflow-y: auto; max-height: 360px; }
+.trk-table-scroll thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
+.trk-search { width: 100%; font-size: 13px; font-family: var(--font); padding: 7px 12px 7px 32px; border: 1px solid var(--border2); border-radius: var(--r-md); background: var(--surface2); color: var(--text1); margin-bottom: 10px; }
+.trk-search:focus { outline: none; border-color: var(--text1); background: var(--surface); }
+.trk-search-wrap { position: relative; }
+.trk-search-wrap::before { content: '🔍'; position: absolute; left: 9px; top: 50%; transform: translateY(-50%); font-size: 12px; pointer-events: none; }
+.month-pill { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--surface2); color: var(--text2); font-family: var(--font); border: 0.5px solid var(--border2); }
+.month-pill.base { background: #1a1816; color: #fff; border-color: #1a1816; }
+.delta-plus  { color: #9b2226; font-size: 12px; }
+.delta-minus { color: #2d6a0f; font-size: 12px; font-weight: 500; }
+.method-sel { font-size: 12px; font-family: var(--font); padding: 4px 8px; border: 0.5px solid var(--border2); border-radius: var(--r-sm); background: var(--surface2); color: var(--text2); cursor: pointer; }
+.memo-input { font-size: 12px; font-family: var(--font); padding: 4px 8px; border: 0.5px solid var(--border2); border-radius: var(--r-sm); background: var(--surface2); color: var(--text1); width: 100%; min-width: 120px; }
+.memo-input:focus { outline: none; border-color: var(--text1); background: var(--surface); }
+.log-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 0.5px solid var(--border); align-items: flex-start; }
+.log-item:last-child { border-bottom: none; }
+.log-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 5px; }
+.log-title { font-size: 13px; font-weight: 500; color: var(--text1); margin-bottom: 2px; }
+.log-sub { font-size: 12px; color: var(--text2); line-height: 1.5; }
+.save-btn { font-size: 12px; font-family: var(--font); padding: 5px 14px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--surface2); color: var(--text2); cursor: pointer; }
+.save-btn:hover { background: var(--text1); color: #fff; border-color: var(--text1); }
+.save-btn.primary { background: var(--text1); color: #fff; border-color: var(--text1); }
+.trk-metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 20px; }
+.pending { color: var(--text3); font-style: italic; font-size: 12px; }
+.view-toggle { font-size: 12px; font-family: var(--font); padding: 4px 14px; border: none; background: none; color: var(--text2); cursor: pointer; }
+.view-toggle.on { background: var(--text1); color: #fff; }
 </style>
 </head>
 <body>
 <div class="shell">
+
+  <!-- Tab Nav -->
+  <div class="tab-nav">
+    <button class="tab-btn on" onclick="switchTab('tab1', this)">유형별 현황</button>
+    <button class="tab-btn" onclick="switchTab('tab2', this)">누적재고 트래킹</button>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="tab-page on" id="tab1">
 
   <div class="page-head">
     <h1>유형별 재고 현황</h1>
@@ -245,7 +299,102 @@ body { font-family: var(--font); background: var(--bg); color: var(--text1); min
     <button class="add-plan" id="addPlanBtn" onclick="addPlan()">＋ 항목 추가</button>
   </div>
 
-</div>
+
+  </div><!-- /tab1 -->
+
+  <!-- TAB 2 -->
+  <div class="tab-page" id="tab2">
+
+    <div class="page-head">
+      <h1>누적재고 트래킹</h1>
+      <p>5월 기준 · 매달 데이터 업데이트 후 소진 현황 및 활동 기록</p>
+      <span class="stamp">베이스라인: 2025년 5월 · 186 SKU</span>
+    </div>
+
+    <div class="trk-intro">
+      5월이 기준월(베이스라인)입니다. 다음달 ERP 데이터를 받으면 수량·금액 변화가 자동 계산되고, 소진방법과 메모를 직접 입력하면 활동 로그로 쌓입니다.
+      지금은 소진방법 구분과 메모 입력 UI를 미리 확인할 수 있습니다.
+    </div>
+
+    <p class="sec">현황 요약</p>
+    <div class="trk-metric-grid">
+      <div class="metric"><div class="metric-lbl">트래킹 SKU</div><div class="metric-val">186</div><div class="metric-sub">누적재고 전체</div></div>
+      <div class="metric"><div class="metric-lbl">기준 금액</div><div class="metric-val">454<span style="font-size:12px;font-weight:400"> 만원</span></div><div class="metric-sub">2025년 5월</div></div>
+      <div class="metric"><div class="metric-lbl">누적 소진금액</div><div class="metric-val" style="color:var(--text3)">—</div><div class="metric-sub">6월 업데이트 후</div></div>
+      <div class="metric"><div class="metric-lbl">소진률</div><div class="metric-val" style="color:var(--text3)">—</div><div class="metric-sub">전월 대비</div></div>
+      <div class="metric"><div class="metric-lbl">폐기 결정</div><div class="metric-val" id="trkDispose">0</div><div class="metric-sub">이번달 처리</div></div>
+      <div class="metric"><div class="metric-lbl">허수재고</div><div class="metric-val" id="trkFake">0</div><div class="metric-sub">수량 오류 확인</div></div>
+    </div>
+
+    <p class="sec">소진방법 필터</p>
+    <div class="card">
+      <div class="card-title" style="margin-bottom:10px">방법별 SKU 보기</div>
+      <div class="method-grid" id="methodFilter">
+        <button class="method-tag on" data-m="all"       onclick="setMethodFilter('all',this)">전체</button>
+        <button class="method-tag" data-m="자연소진"     onclick="setMethodFilter('자연소진',this)">자연소진</button>
+        <button class="method-tag" data-m="영업 판촉"    onclick="setMethodFilter('영업 판촉',this)">영업 판촉</button>
+        <button class="method-tag" data-m="기부"         onclick="setMethodFilter('기부',this)">기부</button>
+        <button class="method-tag" data-m="폐기"         onclick="setMethodFilter('폐기',this)">폐기</button>
+        <button class="method-tag" data-m="MOQ 재협의"   onclick="setMethodFilter('MOQ 재협의',this)">MOQ 재협의</button>
+        <button class="method-tag" data-m="허수재고"     onclick="setMethodFilter('허수재고',this)">허수재고</button>
+        <button class="method-tag" data-m="미입력"       onclick="setMethodFilter('미입력',this)">미입력</button>
+      </div>
+    </div>
+
+    <p class="sec" style="display:flex;align-items:center;gap:10px">
+      SKU별 소진 현황 <span id="trkBadge" class="badge"></span>
+      <span style="display:flex;gap:0;border:0.5px solid var(--border2);border-radius:20px;overflow:hidden;margin-left:auto">
+        <button id="viewQtyBtn" class="view-toggle on" onclick="setTrkView('qty',this)">수량 변화</button>
+        <button id="viewAmtBtn" class="view-toggle" onclick="setTrkView('amt',this)">금액 변화</button>
+      </span>
+    </p>
+    <div class="card" style="padding-bottom:0">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+        <div class="trk-search-wrap" style="flex:1;min-width:200px">
+          <input class="trk-search" id="trkQ" placeholder="코드 또는 품명 검색..." oninput="renderTrk()">
+        </div>
+        <button class="save-btn primary" onclick="saveTrkData()">저장</button>
+      </div>
+      <div class="trk-table-scroll">
+        <table class="tbl">
+          <thead id="trkThead"><tr>
+            <th>CODE / 품명</th>
+            <th>공급처</th>
+            <th style="text-align:right" id="th5">5월 수량</th>
+            <th style="text-align:right" id="th6">6월 수량</th>
+            <th style="text-align:right" id="thDelta">소진량</th>
+            <th>소진방법</th>
+            <th>메모</th>
+          </tr></thead>
+          <tbody id="trkTbody"></tbody>
+        </table>
+      </div>
+      <div style="height:12px"></div>
+    </div>
+
+    <p class="sec">활동 로그</p>
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <span class="card-title" style="margin:0">기록 히스토리</span>
+        <span class="badge" id="logCount">1건</span>
+      </div>
+      <div id="activityLog">
+        <div class="log-item">
+          <div class="log-dot" style="background:#3B6D11"></div>
+          <div style="flex:1">
+            <div class="log-title">2025-05 · 베이스라인 등록</div>
+            <div class="log-sub">누적재고 트래킹 시작 — 186 SKU / 454만원 기준 설정</div>
+          </div>
+          <span class="tag t-ok" style="flex-shrink:0;font-size:11px">기준등록</span>
+        </div>
+        <div style="text-align:center;padding:16px;color:var(--text3);font-size:12px" id="logEmpty">
+          소진방법을 선택하고 저장하면 여기에 활동이 기록됩니다
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab2 -->
+
 
 <script>
 // ── Data ──
@@ -529,11 +678,247 @@ function toggleEdit(){
 function delPlan(i){plans.splice(i,1);renderPlans();}
 function addPlan(){plans.push({badge:'',bc:'',title:'새 계획 항목',desc:'내용을 입력하세요.'});renderPlans();}
 
+// ── Tab switch ──
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+  if (id === 'tab2') renderTrk();
+}
+
+// ── Tracking data ──
+const NUKJUK_METHODS = ['자연소진','영업 판촉','기부','폐기','MOQ 재협의','허수재고'];
+const METHOD_COLOR = {
+  '자연소진': '#2d6a0f',
+  '영업 판촉': '#155d9f',
+  '기부':     '#3C3489',
+  '폐기':     '#791F1F',
+  'MOQ 재협의':'#633806',
+  '허수재고': '#444441',
+};
+const METHOD_BG = {
+  '자연소진': '#EAF3DE',
+  '영업 판촉': '#E6F1FB',
+  '기부':     '#F0EDF8',
+  '폐기':     '#FCEBEB',
+  'MOQ 재협의':'#FAEEDA',
+  '허수재고': '#F1EFE8',
+};
+
+// 누적재고 SKU 뽑기
+const MAY_DATA = {"DHM302E-452WW": {"qty5": 1, "amt5": 0}, "DHM302E-456BK": {"qty5": 26, "amt5": 3}, "DHM500-451L": {"qty5": 0, "amt5": 0}, "DHM560-454": {"qty5": 4, "amt5": 0}, "DHT175HDA1-4C1BWW": {"qty5": 0, "amt5": 0}, "DHT175HDA1-4C6BK": {"qty5": 0, "amt5": 0}, "DHT185HLDA-4B1LMN": {"qty5": 0, "amt5": 0}, "DHT901FE-452N": {"qty5": 1, "amt5": 0}, "DSAA0101N-FK": {"qty5": 1, "amt5": 0}, "DSAA0101N-WW": {"qty5": 1, "amt5": 0}, "DSAC0082B-MAC": {"qty5": 17, "amt5": 0}, "DSAC0082H-MAC": {"qty5": 17, "amt5": 0}, "DSAC0083B-MAC": {"qty5": 2, "amt5": 0}, "DSAC0083BS-MAC": {"qty5": 0, "amt5": 0}, "DSAC0083BSA-MAC": {"qty5": 3, "amt5": 0}, "DSAC0083H-MAC": {"qty5": 19, "amt5": 1}, "DSAC0083HS-MAC": {"qty5": 0, "amt5": 0}, "DSAC0083HSA-MAC": {"qty5": 2, "amt5": 0}, "DSAC0122B-MAC": {"qty5": 4, "amt5": 0}, "DSAC0122H-MAC": {"qty5": 20, "amt5": 1}, "DSAC0123B-MAC": {"qty5": 17, "amt5": 0}, "DSAC0123BS-MAC": {"qty5": 3, "amt5": 0}, "DSAC0123H-MAC": {"qty5": 34, "amt5": 2}, "DSAC0123HS-MAC": {"qty5": 3, "amt5": 0}, "DSAD0112-FK": {"qty5": 1, "amt5": 0}, "DSAD0112F-ML": {"qty5": 1, "amt5": 0}, "DSAD0114-FK": {"qty5": 1, "amt5": 0}, "DSAD0114-MAC": {"qty5": 1, "amt5": 0}, "DSAD0116-FK": {"qty5": 2, "amt5": 0}, "DSAD0118-FK": {"qty5": 7, "amt5": 0}, "DSAD0118-MAC": {"qty5": 1, "amt5": 0}, "DSAD0118-ML": {"qty5": 1, "amt5": 0}, "DSAD0118-WW": {"qty5": 2, "amt5": 0}, "DSAD0612-MAC": {"qty5": 2, "amt5": 0}, "DSAD1100-WW": {"qty5": 37, "amt5": 1}, "DSAFMA0601-BK": {"qty5": 200, "amt5": 1}, "DSAFMA0601-PW": {"qty5": 1, "amt5": 0}, "DSBA0501-ML": {"qty5": 12, "amt5": 0}, "DSBA3220-BK": {"qty5": 33, "amt5": 1}, "DSBA3220-WW": {"qty5": 238, "amt5": 8}, "DSBA3280-BK": {"qty5": 217, "amt5": 8}, "DSBA3280-WW": {"qty5": null, "amt5": 46}, "DSBAAF1704M-FK": {"qty5": 5, "amt5": 0}, "DSBAAF1704M-WW": {"qty5": 1, "amt5": 0}, "DSBAAV0812-MIGP": {"qty5": 35, "amt5": 2}, "DSBAAV0812-WWP": {"qty5": 4, "amt5": 0}, "DSBAAV1112-MIGP": {"qty5": 6, "amt5": 0}, "DSBC0082B-MAC": {"qty5": 1, "amt5": 0}, "DSBC0082BS-MAC": {"qty5": 1, "amt5": 0}, "DSBC0082H-MAC": {"qty5": 1, "amt5": 0}, "DSBC0083B-MAC": {"qty5": 12, "amt5": 1}, "DSBC0083H-MAC": {"qty5": 11, "amt5": 1}, "DSBC0083H-MACFK": {"qty5": 5, "amt5": 0}, "DSBC0085B-MAC": {"qty5": 1, "amt5": 0}, "DSBC0163B-MAC": {"qty5": 1, "amt5": 0}, "DSBC0163BS-MAC": {"qty5": 2, "amt5": 0}, "DSBC0163H-MAC": {"qty5": 1, "amt5": 0}, "DSBC0483BN-MAC": {"qty5": 22, "amt5": 1}, "DSBC0483HN-MAC": {"qty5": 4, "amt5": 0}, "DSBC0483HN-MACFK": {"qty5": 5, "amt5": 0}, "DSBC0485B-MAC": {"qty5": 21, "amt5": 2}, "DSBC0485H-MAC": {"qty5": 0, "amt5": 0}, "DSBC0485H-MACFK": {"qty5": 2, "amt5": 0}, "DSBD0509-ML": {"qty5": 9, "amt5": 0}, "DSBD0509-WW": {"qty5": 1, "amt5": 0}, "DSBD0550-FKFK": {"qty5": 5, "amt5": 0}, "DSBD0550-MLFK": {"qty5": 9, "amt5": 1}, "DSBD0550-MLWW": {"qty5": 8, "amt5": 1}, "DSBD0550-WWWW": {"qty5": 14, "amt5": 1}, "DSBF0707-3F6": {"qty5": 47, "amt5": 3}, "DSBF0712-3F6": {"qty5": 17, "amt5": 1}, "DSBF0714-3F6": {"qty5": 4, "amt5": 0}, "DSBF0716-3F6": {"qty5": 9, "amt5": 1}, "DSBX0500-FK": {"qty5": 8, "amt5": 2}, "DSBX0500-WW": {"qty5": 31, "amt5": 7}, "DSBX0501-FK": {"qty5": 10, "amt5": 0}, "DSBX0501-WW": {"qty5": 22, "amt5": 0}, "DSCA0601-XX": {"qty5": 1, "amt5": 0}, "DSCA06011-WW": {"qty5": null, "amt5": 126}, "DSCAAX0000-XX": {"qty5": 7, "amt5": 0}, "DSCABE0301-XX": {"qty5": null, "amt5": 24}, "DSCBAX0000-XX": {"qty5": 0, "amt5": 0}, "DSCC0062BS-OS": {"qty5": 43, "amt5": 1}, "DSCC0062BS-WW": {"qty5": 1, "amt5": 0}, "DSCCAH1603-OS": {"qty5": 11, "amt5": 0}, "DSCCAH1603-WW": {"qty5": 282, "amt5": 13}, "DSCCAV2006-OS": {"qty5": 83, "amt5": 5}, "DSCCAX0000-XX": {"qty5": 15, "amt5": 0}, "DSCCAX0001-XX": {"qty5": 171, "amt5": 4}, "DSDBA1000-FK": {"qty5": 57, "amt5": 1}, "DSDBA1000-WW": {"qty5": 46, "amt5": 1}, "DSDBA1200-FK": {"qty5": 5, "amt5": 0}, "DSDBA1200-WW": {"qty5": 42, "amt5": 1}, "DSDBA1400-FK": {"qty5": 42, "amt5": 1}, "DSDBA1400-WW": {"qty5": 56, "amt5": 1}, "DSDBA1600-FK": {"qty5": 23, "amt5": 0}, "DSDBA1600-WW": {"qty5": 19, "amt5": 0}, "DSDBE12001-FKFK": {"qty5": 7, "amt5": 0}, "DSDBE12001-FKVR": {"qty5": 8, "amt5": 0}, "DSDBE12001-WWVR": {"qty5": 11, "amt5": 0}, "DSDBE12001-WWWW": {"qty5": 8, "amt5": 0}, "DSDBE14001-FKFK": {"qty5": 20, "amt5": 1}, "DSDBE14001-FKVR": {"qty5": 14, "amt5": 1}, "DSDBE14001-WWVR": {"qty5": 5, "amt5": 0}, "DSDBE14001-WWWW": {"qty5": 6, "amt5": 0}, "DSDBE16001-FKFK": {"qty5": 22, "amt5": 1}, "DSDBE16001-FKVR": {"qty5": 28, "amt5": 1}, "DSDBE16001-WWVR": {"qty5": 17, "amt5": 1}, "DSDBE16001-WWWW": {"qty5": 18, "amt5": 1}, "DSDBE18001-FKFK": {"qty5": 9, "amt5": 0}, "DSDBE18001-FKVR": {"qty5": 21, "amt5": 1}, "DSDBE18001-WWVR": {"qty5": 22, "amt5": 1}, "DSDBE18001-WWWW": {"qty5": 11, "amt5": 1}, "DSDBL07001-FKFK": {"qty5": 13, "amt5": 1}, "DSDBL07001-FKVR": {"qty5": 11, "amt5": 1}, "DSDBL07001-WWWW": {"qty5": 11, "amt5": 1}, "DSDBT1407-WW": {"qty5": 1, "amt5": 0}, "DSDBT1607-FK": {"qty5": 1, "amt5": 0}, "DSDD1017R-MAC": {"qty5": 2, "amt5": 0}, "DSDD1017RA-MAC": {"qty5": 2, "amt5": 0}, "DSDGBT1408-FK": {"qty5": 0, "amt5": 0}, "DSDGBT1408-MAC": {"qty5": 0, "amt5": 0}, "DSDGBT1408-ML": {"qty5": 0, "amt5": 0}, "DSDGBT1408-WW": {"qty5": 28, "amt5": 2}, "DSDGBT1608-FK": {"qty5": 10, "amt5": 1}, "DSDGBT1608-MAC": {"qty5": 0, "amt5": 0}, "DSDGBT1608-ML": {"qty5": 4, "amt5": 0}, "DSDGBT1608-WW": {"qty5": 5, "amt5": 0}, "DSDGBT1808-FK": {"qty5": 0, "amt5": 0}, "DSDGBT1808-MAC": {"qty5": 14, "amt5": 1}, "DSDGBT1808-ML": {"qty5": 1, "amt5": 0}, "DSDGBT1808-WW": {"qty5": 3, "amt5": 0}, "DSDME0700-BKM": {"qty5": 89, "amt5": 2}, "DSDME0700-WW": {"qty5": 95, "amt5": 2}, "DSDME0700M-BKM": {"qty5": 27, "amt5": 1}, "DSDME0700M-WW": {"qty5": 48, "amt5": 2}, "DSDML10001-BKM": {"qty5": 2, "amt5": 1}, "DSDML10001-WW": {"qty5": 2, "amt5": 1}, "DSDMT12071-FK": {"qty5": 52, "amt5": 2}, "DSDMT12071-MAC": {"qty5": 31, "amt5": 1}, "DSDMT12071-ML": {"qty5": 41, "amt5": 2}, "DSDMT12071-WW": {"qty5": 33, "amt5": 1}, "DSDMT14071-FK": {"qty5": 47, "amt5": 3}, "DSDMT14071-MAC": {"qty5": 27, "amt5": 2}, "DSDMT14071-ML": {"qty5": 105, "amt5": 7}, "DSDMT14071-WW": {"qty5": 148, "amt5": 10}, "DSDMT16071-MAC": {"qty5": 27, "amt5": 2}, "DSDMT16071-ML": {"qty5": 32, "amt5": 2}, "DSDMT18071-MAC": {"qty5": 1, "amt5": 0}, "DSDMT18071-ML": {"qty5": 2, "amt5": 0}, "DSFAAF0712-FK": {"qty5": 5, "amt5": 0}, "DSFAAF0712-WW": {"qty5": 6, "amt5": 0}, "DSFAAF0812-FK": {"qty5": 9, "amt5": 0}, "DSFAAF0812-WW": {"qty5": 4, "amt5": 0}, "DSFAAF1212-FK": {"qty5": 4, "amt5": 0}, "DSFAAF1212-WW": {"qty5": 3, "amt5": 0}, "DSFAAF1412-FK": {"qty5": 2, "amt5": 0}, "DSFAAF1412-WW": {"qty5": 3, "amt5": 0}, "DSFAAV0712-3F1FK": {"qty5": 7, "amt5": 0}, "DSFAAV0712-3F1WW": {"qty5": 19, "amt5": 0}, "DSFAAV0712-3F2WW": {"qty5": 30, "amt5": 1}, "DSFAAV0812-3F1FK": {"qty5": 10, "amt5": 0}, "DSFAAV0812-3F1WW": {"qty5": 10, "amt5": 0}, "DSFAAV0812-3F2WW": {"qty5": 79, "amt5": 2}, "DSFAAV1212-3F1FK": {"qty5": 5, "amt5": 0}, "DSFAAV1212-3F1WW": {"qty5": 11, "amt5": 0}, "DSFAAV1212-3F2WW": {"qty5": 64, "amt5": 3}, "DSFAAV1412-3F1FK": {"qty5": 24, "amt5": 1}, "DSFAAV1412-3F1WW": {"qty5": 10, "amt5": 0}, "DSFAAV1412-3F2WW": {"qty5": 35, "amt5": 2}, "DSFAAX0101-FK": {"qty5": 48, "amt5": 0}, "DSFAAX0101-WW": {"qty5": 6, "amt5": 0}, "DSFAAX0301-FK": {"qty5": 1, "amt5": 0}, "DSFAAX0301-WW": {"qty5": 13, "amt5": 0}, "DSFBAV2606-5P1": {"qty5": 55, "amt5": 5}, "DSFBAV2606-5P2": {"qty5": 79, "amt5": 7}, "DSFBAV2806-5P1": {"qty5": 68, "amt5": 6}, "DSFBAV2806-5P2": {"qty5": 103, "amt5": 10}, "DSFBAV3006-5P1": {"qty5": 121, "amt5": 12}, "DSFBAV3006-5P2": {"qty5": 300, "amt5": 30}, "DSFBAV3206-5P1": {"qty5": 150, "amt5": 15}, "DSFBAV3206-5P2": {"qty5": 118, "amt5": 12}, "DSPAAE0603-OS": {"qty5": 18, "amt5": 2}, "DSPAAE0603-OSWW": {"qty5": 85, "amt5": 11}, "DSPAAE0603-WW": {"qty5": 31, "amt5": 4}, "DSTBT0806-MAC": {"qty5": 3, "amt5": 0}};
+
+const NUKJUK_BASE = RAW.filter(d => d.tc === '누적').map(d => {
+  const may = MAY_DATA[d.code] || {};
+  return {
+    code: d.code,
+    name: d.name,
+    sup:  d.sup,
+    qty5: may.qty5 !== undefined ? may.qty5 : d.qc,
+    amt5: may.amt5 !== undefined ? may.amt5 : (d.ac || 0),
+    qty6: null,
+    method: '',
+    memo: '',
+    saved: false,
+  };
+});
+
+// localStorage에서 저장된 데이터 복원
+function loadTrkStorage() {
+  try {
+    const saved = localStorage.getItem('trkData_v1');
+    if (!saved) return;
+    const parsed = JSON.parse(saved);
+    NUKJUK_BASE.forEach(item => {
+      if (parsed[item.code]) {
+        Object.assign(item, parsed[item.code]);
+      }
+    });
+  } catch(e) {}
+}
+
+function saveTrkData() {
+  try {
+    const obj = {};
+    NUKJUK_BASE.forEach(item => {
+      obj[item.code] = { method: item.method, memo: item.memo, qty6: item.qty6, qty5: item.qty5, amt5: item.amt5 };
+    });
+    localStorage.setItem('trkData_v1', JSON.stringify(obj));
+    // 활동 로그에 저장 이벤트 추가
+    const changed = NUKJUK_BASE.filter(d => d.method && !d.saved);
+    if (changed.length > 0) {
+      addActivityLog(changed);
+      changed.forEach(d => d.saved = true);
+    }
+    // 버튼 피드백
+    const btn = document.querySelector('.save-btn.primary');
+    const orig = btn.textContent;
+    btn.textContent = '✓ 저장됨';
+    btn.style.background = '#3B6D11';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; }, 1500);
+    updateTrkMetrics();
+  } catch(e) {
+    alert('저장 중 오류: ' + e.message);
+  }
+}
+
+function addActivityLog(items) {
+  const log = document.getElementById('activityLog');
+  const empty = document.getElementById('logEmpty');
+  if (empty) empty.style.display = 'none';
+  const now = new Date();
+  const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0');
+  const methodGroups = {};
+  items.forEach(d => {
+    if (!methodGroups[d.method]) methodGroups[d.method] = [];
+    methodGroups[d.method].push(d.code);
+  });
+  Object.entries(methodGroups).forEach(([method, codes]) => {
+    const col = METHOD_COLOR[method] || '#888';
+    const bg  = METHOD_BG[method]  || '#eee';
+    const el = document.createElement('div');
+    el.className = 'log-item';
+    el.innerHTML = `
+      <div class="log-dot" style="background:${col}"></div>
+      <div style="flex:1">
+        <div class="log-title">${dateStr} · ${method}</div>
+        <div class="log-sub">${codes.length}개 SKU — ${codes.slice(0,3).join(', ')}${codes.length>3?' 외 '+(codes.length-3)+'건':''}</div>
+      </div>
+      <span class="tag" style="background:${bg};color:${col};flex-shrink:0;font-size:11px">${method}</span>`;
+    // 베이스라인 다음에 삽입
+    const base = log.querySelector('.log-item');
+    if (base && base.nextSibling) {
+      log.insertBefore(el, base.nextSibling);
+    } else {
+      log.appendChild(el);
+    }
+  });
+  updateLogCount();
+}
+
+function updateLogCount() {
+  const count = document.querySelectorAll('#activityLog .log-item').length;
+  const el = document.getElementById('logCount');
+  if (el) el.textContent = count + '건';
+}
+
+function updateTrkMetrics() {
+  const disposeCount = NUKJUK_BASE.filter(d => d.method === '폐기').length;
+  const fakeCount    = NUKJUK_BASE.filter(d => d.method === '허수재고').length;
+  document.getElementById('trkDispose').textContent = disposeCount;
+  document.getElementById('trkFake').textContent    = fakeCount;
+}
+
+let trkMethodFilter = 'all';
+let trkView = 'qty'; // 'qty' | 'amt'
+function setTrkView(v, el) {
+  trkView = v;
+  document.querySelectorAll('.view-toggle').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  renderTrk();
+}
+
+function setMethodFilter(m, el) {
+  trkMethodFilter = m;
+  document.querySelectorAll('#methodFilter .method-tag').forEach(b => b.classList.remove('on'));
+  el.classList.add('on');
+  renderTrk();
+}
+
+function renderTrk() {
+  const q = (document.getElementById('trkQ').value || '').toLowerCase();
+  let data = NUKJUK_BASE.filter(d => {
+    const qOk = !q || d.code.toLowerCase().includes(q) || d.name.toLowerCase().includes(q);
+    const mOk = trkMethodFilter === 'all'
+      || (trkMethodFilter === '미입력' ? !d.method : d.method === trkMethodFilter);
+    return qOk && mOk;
+  });
+  data = [...data].sort((a,b) => (b.amt5||0) - (a.amt5||0));
+  document.getElementById('trkBadge').textContent = data.length + ' SKU';
+
+  // 헤더 업데이트
+  const isQty = trkView === 'qty';
+  document.getElementById('th5').textContent    = isQty ? '5월 수량' : '5월 금액(만)';
+  document.getElementById('th6').textContent    = isQty ? '6월 수량' : '6월 금액(만)';
+  document.getElementById('thDelta').textContent = isQty ? '소진량' : '소진액(만)';
+
+  const INP = 'width:64px;font-size:12px;font-family:var(--font);padding:4px 6px;border:0.5px solid var(--border2);border-radius:var(--r-sm);background:var(--surface2);color:var(--text1);text-align:right';
+
+  const rows = data.map((d, i) => {
+    const globalIdx = NUKJUK_BASE.indexOf(d);
+
+    // 수량 변화
+    const qd = (d.qty6 != null && d.qty5 != null) ? d.qty5 - d.qty6 : null;
+    const qdHtml = qd != null
+      ? (qd > 0 ? `<span class="delta-minus">▼${qd.toLocaleString()}</span>`
+                : qd < 0 ? `<span class="delta-plus">▲${Math.abs(qd).toLocaleString()}</span>`
+                : '<span style="color:var(--text3)">±0</span>')
+      : '<span style="color:var(--text3)">—</span>';
+
+    // 금액 변화 (qty 비율 기준 자동계산)
+    const amt6 = (d.qty6 != null && d.qty5 != null && d.qty5 > 0)
+      ? Math.round(d.qty6 / d.qty5 * (d.amt5 || 0)) : null;
+    const ad = (amt6 != null && d.amt5 != null) ? d.amt5 - amt6 : null;
+    const adHtml = ad != null
+      ? (ad > 0 ? `<span class="delta-minus">▼${ad.toLocaleString()}만</span>`
+                : ad < 0 ? `<span class="delta-plus">▲${Math.abs(ad).toLocaleString()}만</span>`
+                : '<span style="color:var(--text3)">±0</span>')
+      : '<span style="color:var(--text3)">—</span>';
+
+    const methodOpts = ['', ...NUKJUK_METHODS].map(m =>
+      `<option value="${m}" ${d.method===m?'selected':''}>${m||'— 선택 —'}</option>`
+    ).join('');
+    const mStyle = d.method
+      ? `background:${METHOD_BG[d.method]};color:${METHOD_COLOR[d.method]};border-color:${METHOD_COLOR[d.method]}`
+      : '';
+
+    // 뷰별 컬럼 내용
+    const col5 = isQty
+      ? `<input type="number" min="0" style="${INP}" value="${d.qty5 != null ? d.qty5 : ''}" oninput="NUKJUK_BASE[${globalIdx}].qty5=this.value===''?null:parseInt(this.value);renderTrk()">`
+      : `<input type="number" min="0" style="${INP}" value="${d.amt5 != null ? d.amt5 : ''}" oninput="NUKJUK_BASE[${globalIdx}].amt5=this.value===''?null:parseInt(this.value);renderTrk()">`;
+
+    const col6 = isQty
+      ? `<input type="number" min="0" style="${INP}" placeholder="입력" value="${d.qty6 != null ? d.qty6 : ''}" oninput="NUKJUK_BASE[${globalIdx}].qty6=this.value===''?null:parseInt(this.value);renderTrk()">`
+      : `<div style="font-size:13px;text-align:right;padding:4px 0;color:var(--text1)">${amt6 != null ? amt6.toLocaleString()+'만' : '<span style=\'color:var(--text3)\'>—</span>'}</div>`;
+
+    const colDelta = isQty ? qdHtml : adHtml;
+
+    return `<tr>
+      <td>
+        <div class="mono">${d.code}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:1px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.name}">${d.name}</div>
+      </td>
+      <td style="font-size:12px">${d.sup}</td>
+      <td style="text-align:right">${col5}</td>
+      <td style="text-align:right">${col6}</td>
+      <td style="text-align:right">${colDelta}</td>
+      <td>
+        <select class="method-sel" style="${mStyle}"
+          onchange="NUKJUK_BASE[${globalIdx}].method=this.value;const c=METHOD_COLOR[this.value]||'';const bg=METHOD_BG[this.value]||'';this.style.background=bg;this.style.color=c;this.style.borderColor=c;renderTrk()">
+          ${methodOpts}
+        </select>
+      </td>
+      <td>
+        <input class="memo-input" type="text" placeholder="한줄 메모..."
+          value="${d.memo||''}"
+          oninput="NUKJUK_BASE[${globalIdx}].memo=this.value">
+      </td>
+    </tr>`;
+  });
+
+    document.getElementById('trkTbody').innerHTML = rows.join('') ||
+    '<tr><td colspan="8" style="text-align:center;padding:2rem;color:var(--text3);font-size:13px">해당 SKU 없음</td></tr>';
+  updateTrkMetrics();
+}
+
 // ── Init ──
+loadTrkStorage();
 buildMenus();
 buildSkuFilter();
 render();
 renderPlans();
+updateLogCount();
 </script>
 </body>
 </html>
