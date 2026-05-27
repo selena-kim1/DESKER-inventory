@@ -137,7 +137,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text1); min
 }
 
 /* ── Tabs ── */
-.tab-nav { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); margin-bottom: 24px; }
+.tab-nav { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); margin-bottom: 24px; position: sticky; top: 0; background: var(--surface); z-index: 50; }
 .tab-btn { font-size: 14px; font-family: var(--font); padding: 10px 20px; border: none; background: none; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s; }
 .tab-btn:hover { color: var(--text1); }
 .tab-btn.on { color: var(--text1); border-bottom-color: var(--text1); font-weight: 500; }
