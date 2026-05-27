@@ -138,11 +138,22 @@ body { font-family: var(--font); background: var(--bg); color: var(--text1); min
 
 /* ── Tabs ── */
 .tab-nav { display: flex; gap: 0; border-bottom: 0.5px solid var(--border); margin-bottom: 24px; position: sticky; top: 0; background: var(--surface); z-index: 50; }
-.tab-btn { font-size: 14px; font-family: var(--font); padding: 10px 20px; border: none; background: none; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color .15s; }
+.tab-btn { font-size: 14px; font-family: var(--font); padding: 10px 20px; border: none; background: none; color: var(--text2); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; text-decoration: none; display: inline-block; transition: color .15s; }
 .tab-btn:hover { color: var(--text1); }
-.tab-btn.on { color: var(--text1); border-bottom-color: var(--text1); font-weight: 500; }
 .tab-page { display: none; }
-.tab-page.on { display: block; }
+/* 기본: tab1 표시 */
+#tab1 { display: block; }
+#tab1:target,
+#tab2:target { display: block; }
+/* tab2 열리면 tab1 숨기기 */
+#tab2:target ~ #tab1,
+body:has(#tab2:target) #tab1 { display: none; }
+/* 활성 탭 강조 */
+#tab2:target ~ .tab-nav .tab-btn[href="#tab1"],
+body:has(#tab2:target) .tab-btn[href="#tab1"] { color: var(--text2); border-bottom-color: transparent; font-weight: 400; }
+body:not(:has(#tab2:target)) .tab-btn[href="#tab1"],
+#tab1:target ~ .tab-nav .tab-btn[href="#tab1"] { color: var(--text1); border-bottom-color: var(--text1); font-weight: 500; }
+body:has(#tab2:target) .tab-btn[href="#tab2"] { color: var(--text1); border-bottom-color: var(--text1); font-weight: 500; }
 
 /* ── Tracking tab ── */
 .trk-intro { font-size: 13px; color: var(--text2); line-height: 1.7; padding: 12px 14px; background: var(--surface2); border-radius: var(--r-md); margin-bottom: 20px; border-left: 2px solid var(--border2); }
@@ -187,8 +198,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text1); min
 
   <!-- Tab Nav -->
   <div class="tab-nav">
-    <button class="tab-btn on" onclick="switchTab('tab1', this)">유형별 현황</button>
-    <button class="tab-btn" onclick="switchTab('tab2', this)">누적재고 트래킹</button>
+    <a class="tab-btn" href="#tab1">유형별 현황</a>
+    <a class="tab-btn" href="#tab2">누적재고 트래킹</a>
   </div>
 
   <!-- TAB 1 -->
